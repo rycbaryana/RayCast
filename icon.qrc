@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>img/light.png</file>
+        <file>img/polygon.png</file>
+        <file>img/rays.png</file>
+        <file>img/brightness.png</file>
+        <file>img/flashlight.png</file>
+        <file>img/flashlight_obj.png</file>
+        <file>img/static.png</file>
+    </qresource>
+</RCC>
