@@ -7,6 +7,7 @@ public:
     Controller();
     void addPolygon(const Polygon&);
     void addVertexToLastPolygon(const QPoint& newVertex);
+    void updateLastPolygonIntersectPoints();
     void updateLastPolygon(const QPoint& newVertex);
     void deleteVertexFromLastPolygon();
     void clearPolygons();
