@@ -1,5 +1,4 @@
 #include "Controller.h"
-#include <QDebug>
 
 const std::vector<QPointF>& Controller::getLightSources() const {
     return _lightSources;
@@ -36,7 +35,9 @@ void Controller::updateLastPolygon(const QPoint& newVertex) {
 std::vector<Ray> Controller::castRays(const QPointF& source) const {
     std::vector<Ray> rays;
     for (const auto& polygon : _polygons) {
-        for (const auto& vertex : polygon.getVertices()) {
+        auto points = polygon.getVertices();
+        points.insert(points.end(), polygon.getIntersectPoints().begin(), polygon.getIntersectPoints().end());
+        for (const auto& vertex : points) {
             Ray ray = {source, vertex};
             double delta = 0.00001;
             rays.push_back(ray);
@@ -96,7 +97,9 @@ Controller::castRays(const QPointF& source, double angleStart, double angleEnd) 
     rays.push_back(ox.rotate(angleStart));
     rays.push_back(ox.rotate(angleEnd));
     for (const auto& polygon : _polygons) {
-        for (const auto& vertex : polygon.getVertices()) {
+        auto points = polygon.getVertices();
+        points.insert(points.end(), polygon.getIntersectPoints().begin(), polygon.getIntersectPoints().end());
+        for (const auto& vertex : points) {
             Ray ray = {source, vertex};
             double delta = 0.00001;
             if ((ray.getAngle() >= angleStart && ray.getAngle() <= angleEnd)
@@ -161,7 +164,7 @@ std::vector<Polygon> Controller::createStaticLightArea() const {
 }
 
 void Controller::removeAdjacentRays(std::vector<Ray>& rays) const {
-    double eps = 1;
+    double eps = 5;
     bool done = false;
     while (!done) {
         for (int i = 0; i < rays.size() - 1; ++i) {

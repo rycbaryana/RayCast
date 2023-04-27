@@ -10,7 +10,6 @@ ControllerWidget::ControllerWidget(QWidget* parent)
     : QWidget(parent), controller(new Controller()) {
     controller->addPolygon({});
     setMouseTracking(true);
-
     QPalette pal;
     pal.setColor(QPalette::Window, Qt::black);
     setAutoFillBackground(true);
@@ -42,6 +41,12 @@ void ControllerWidget::drawPolygon(QPainter* painter, const Polygon& polygon) co
     for (size_t i = 1; i < vertices.size(); ++i) {
         poly.lineTo(vertices[i]);
     }
+//    painter->save();
+//    for (auto& self : polygon.getIntersectPoints()) {
+//        painter->setPen({Qt::red, 10});
+//        painter->drawPoint(self);
+//    }
+//    painter->restore();
     poly.closeSubpath();
     painter->drawPath(poly);
 }
@@ -110,8 +115,7 @@ void ControllerWidget::drawLightArea(QPainter* painter) const {
         const Polygon& polygon = lightArea[i];
         QRadialGradient grad(controller->getLightSources().at(i), width());
         grad.setStops({{0, {230, 0, 0, 255 * 2 / maxSources}}, {0.75, Qt::transparent}});
-        QBrush brush(grad);
-        painter->setBrush(brush);
+        painter->setBrush({grad});
         drawPolygon(painter, polygon);
     }
     auto staticLightArea = controller->createStaticLightArea();

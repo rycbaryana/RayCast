@@ -15,9 +15,11 @@ public:
     void setEnd(const QPointF& end);
     void setAngle(double angle);
     void angleRecalc();
-
+    static std::pair<double, double> calcIntersect(const Ray& vec1, const Ray& vec2);
 
     Ray rotate(double angle) const;
+
+    bool operator==(const Ray& other) const;
 
 private:
     QPointF _begin;
