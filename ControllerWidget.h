@@ -37,5 +37,5 @@ public:
     bool newPolygon;
     double angleStart;
     double angleEnd;
-    const int maxSources = 13;
+    const int maxSources = 11;
 };

@@ -203,5 +203,11 @@ void Controller::clearStaticSources() {
 }
 
 void Controller::updateLastPolygonIntersectPoints() {
-    _polygons.back().updateIntersectPoints();
+    _polygons.back().updateIntersectPoints(_polygons);
+}
+
+void Controller::deleteLastStaticSource() {
+    if (_staticSources.empty())
+        return ;
+    _staticSources.pop_back();
 }

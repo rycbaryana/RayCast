@@ -14,7 +14,6 @@ ControllerWidget::ControllerWidget(QWidget* parent)
     pal.setColor(QPalette::Window, Qt::black);
     setAutoFillBackground(true);
     setPalette(pal);
-
     initModes();
 }
 
@@ -41,12 +40,6 @@ void ControllerWidget::drawPolygon(QPainter* painter, const Polygon& polygon) co
     for (size_t i = 1; i < vertices.size(); ++i) {
         poly.lineTo(vertices[i]);
     }
-//    painter->save();
-//    for (auto& self : polygon.getIntersectPoints()) {
-//        painter->setPen({Qt::red, 10});
-//        painter->drawPoint(self);
-//    }
-//    painter->restore();
     poly.closeSubpath();
     painter->drawPath(poly);
 }
@@ -95,7 +88,6 @@ void ControllerWidget::drawStaticSources(QPainter* painter) const {
         QPainter staticPainter(&staticLight);
         staticPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
         staticPainter.fillRect(staticLight.rect(), staticColor);
-        staticPainter.end();
         painter->drawPixmap(
             source.x() - staticLight.rect().width() / 2, source.y() - staticLight.rect().height() / 2, staticLight.rect().width(),
             staticLight.rect().height(), staticLight
@@ -209,6 +201,11 @@ void ControllerWidget::keyPressEvent(QKeyEvent* event) {
     if (staticMode->isChecked() && event->key() == Qt::Key_R
         && event->modifiers() & Qt::ControlModifier) {
         controller->clearStaticSources();
+        update();
+    }
+    if (staticMode->isChecked() && event->key() == Qt::Key_Z
+        && event->modifiers() & Qt::ControlModifier) {
+        controller->deleteLastStaticSource();
         update();
     }
 }

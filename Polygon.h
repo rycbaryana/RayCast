@@ -12,7 +12,7 @@ public:
     void addVertex(const QPointF& vertex);
     void updateLastVertex(const QPointF& newVertex);
     void deleteLastVertex();
-    void updateIntersectPoints();
+    void updateIntersectPoints(const std::vector<Polygon>& polygons);
     std::optional<QPointF> intersectRay(const Ray& ray) const;
 
 private:

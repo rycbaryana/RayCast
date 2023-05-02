@@ -41,7 +41,7 @@ const std::vector<QPointF>& Polygon::getIntersectPoints() const {
     return _intersectPoints;
 }
 
-void Polygon::updateIntersectPoints() {
+void Polygon::updateIntersectPoints(const std::vector<Polygon>& polygons) {
     _intersectPoints.clear();
     for (size_t i = 0; i < _vertices.size(); ++i) {
         Ray ray1 = {_vertices[i], _vertices[(i + 1) % _vertices.size()]};
@@ -55,6 +55,20 @@ void Polygon::updateIntersectPoints() {
                 _intersectPoints.emplace_back(
                     ray1.getBegin().x() + vec.x() * t1, ray1.getBegin().y() + vec.y() * t1
                 );
+            }
+        }
+        for (const auto& poly : polygons) {
+            if (&poly == this)
+                continue ;
+            for (size_t j = 0; j < poly._vertices.size(); ++j) {
+                auto [t1, t2] =
+                    Ray::calcIntersect(ray1, {poly._vertices[j], poly._vertices[(j + 1) % poly._vertices.size()]});
+                if (t1 > 0 && t1 < 1 && t2 > 0 && t2 < 1) {
+                    auto vec = ray1.getEnd() - ray1.getBegin();
+                    _intersectPoints.emplace_back(
+                        ray1.getBegin().x() + vec.x() * t1, ray1.getBegin().y() + vec.y() * t1
+                    );
+                }
             }
         }
     }

@@ -20,6 +20,7 @@ public:
     void setStaticSources(const std::vector<QPointF>& staticSources);
     void addStaticSources(const QPointF& newSource);
     void clearStaticSources();
+    void deleteLastStaticSource();
     std::vector<Ray> castRays(const QPointF& source) const;
     std::vector<Ray> castRays(const QPointF& source, double angleStart, double angleEnd) const;
     void intersectRays(std::vector<Ray>& rays) const;
