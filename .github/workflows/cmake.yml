@@ -8,7 +8,7 @@ on:
 
 env:
   BUILD_TYPE: Release
-  CMAKE_PREFIX_PATH: ${{env.Qt6_Dir}}
+  
 
 jobs:
   build:
@@ -20,9 +20,12 @@ jobs:
       with:
         version : '6.4.2'
         install-deps: 'true'
+        cache : 'true'
     - uses: actions/checkout@v3
 
     - name: Configure CMake
+      env:
+        CMAKE_PREFIX_PATH: ${{env.Qt6_Dir}}
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
