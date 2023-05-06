@@ -265,22 +265,22 @@ void ControllerWidget::initModes() {
 
     colorPick = new QWidgetAction(this);
     auto* button = new QPushButton(this);
+    button->setFixedSize(32, 32);
     button->setAutoFillBackground(true);
     button->setFlat(true);
 
     colorPick->setDefaultWidget(button);
-    colorPick->defaultWidget()->setAutoFillBackground(true);
     QPalette pal;
     pal.setBrush(QPalette::Button, staticColor);
     colorPick->defaultWidget()->setPalette(pal);
     colorPick->setShortcut(Qt::Key_C);
 
-    connect(lightMode, &QAction::changed, this, [&]() { update(); });
-    connect(polyMode, &QAction::changed, this, [&]() { update(); });
-    connect(raysMode, &QAction::changed, this, [&]() { update(); });
-    connect(flashLightMode, &QAction::changed, this, [&]() { update(); });
-    connect(staticMode, &QAction::changed, this, [&]() { update(); });
-    connect(button, &QPushButton::pressed, this, [&]() {
+    connect(lightMode, &QAction::changed,  [this]() { update(); });
+    connect(polyMode, &QAction::changed,  [this]() { update(); });
+    connect(raysMode, &QAction::changed,  [this]() { update(); });
+    connect(flashLightMode, &QAction::changed, [this]() { update(); });
+    connect(staticMode, &QAction::changed, [this]() { update(); });
+    connect(button, &QPushButton::pressed, [this]() {
         staticColor = QColorDialog::getColor();
         QPalette pal;
         pal.setBrush(QPalette::Button, staticColor);
